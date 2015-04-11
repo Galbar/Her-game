@@ -296,14 +296,37 @@ void Memory(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 	go->addComponent(spr_comp);
 
 	std::string scene = tmx_obj->GetProperties().GetStringProperty("next_scene");
+	auto data = new MemoryData;
 	auto fc = new hb::FunctionComponent;
 	go->addComponent(fc);
 	fc->addListener("sensorStart", [=](hb::DataRepository& collision)
 	{
 		if (collision.getPointer<hb::GameObject>("other")->getName() == "Player")
 		{
-			hb::Game::setScene(scene);
+			data->touching_player = true;
+			spr_comp->setFrameOrder({60});
 		}
+	});
+
+	fc->addListener("sensorEnd", [=](hb::DataRepository& collision)
+	{
+		if (collision.getPointer<hb::GameObject>("other")->getName() == "Player")
+		{
+			data->touching_player = false;
+			spr_comp->setFrameOrder({32});
+		}
+	});
+
+	auto listener = hb::InputManager::instance()->listen([=](hb::KeyPressed& e)
+	{
+		if (e.code == hb::Keyboard::Key::W and data->touching_player)
+			hb::Game::setScene(scene);
+	});
+
+
+	fc->addListener("destroy", [=](hb::DataRepository& collision)
+	{
+		hb::InputManager::instance()->ignore(listener);
 	});
 }
 
@@ -329,7 +352,7 @@ void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 	rigid_body->addCollider(collider);
 	hb::BoxCollider2d grounded_sensor(
 		mat,
-		hb::Vector2d(0.35, 0.1),
+		hb::Vector2d(0.38, 0.1),
 		hb::Vector2d(0, 0.5),
 		0.,
 		true);
@@ -428,7 +451,7 @@ void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 		int value = 5.;
 
 		hb::Keyboard::Key code = event.code;
-		if (code == hb::Keyboard::Key::W)
+		if (code == hb::Keyboard::Key::Space)
 		{
 			if (data->grounded_count > 0)
 			{
@@ -447,7 +470,7 @@ void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 			data->player_vel.x = value;
 			data->player_sprite->setFrameOrder({1, 11, 1, 21});
 		}
-		else if (code == hb::Keyboard::Key::Space)
+		else if (code == hb::Keyboard::Key::W)
 		{
 			if (data->current_switch != nullptr)
 			{

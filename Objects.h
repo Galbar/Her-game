@@ -38,6 +38,12 @@ struct SwitchData
 };
 
 
+struct MemoryData
+{
+	bool touching_player = false;
+};
+
+
 struct PlayerData
 {
 	hb::Vector2d platform_vel;
