@@ -101,6 +101,11 @@ namespace hb
 		*/
 		static void setScene(const std::string& name);
 		/*!
+		  \brief Get name of the current Scene.
+		  \param name Name of the current Scene.
+		*/
+		static const std::string& getCurrentScene();
+		/*!
 		  \brief Run the Game.
 
 		  Call this method when all Scene%s and Plugin%s are already added to the Game 

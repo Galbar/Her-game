@@ -164,6 +164,11 @@ void GameObject::setName(const std::string& name)
 void GameObject::setActive(bool active)
 {
 	m_active = active;
+	DataRepository d;
+	if (m_active)
+		sendMessage("activate", d);
+	else
+		sendMessage("deactivate", d);
 }
 
 

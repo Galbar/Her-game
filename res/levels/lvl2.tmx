@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="32" tileheight="32" backgroundcolor="#79b1cb" nextobjectid="27">
+ <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32">
+  <image source="../drawable/tileset.png" width="320" height="192"/>
+  <tile id="4">
+   <animation>
+    <frame tileid="4" duration="300"/>
+    <frame tileid="14" duration="300"/>
+    <frame tileid="24" duration="300"/>
+    <frame tileid="14" duration="300"/>
+   </animation>
+  </tile>
+  <tile id="5">
+   <animation>
+    <frame tileid="5" duration="300"/>
+    <frame tileid="15" duration="300"/>
+    <frame tileid="25" duration="300"/>
+    <frame tileid="15" duration="300"/>
+   </animation>
+  </tile>
+  <tile id="6">
+   <animation>
+    <frame tileid="6" duration="300"/>
+    <frame tileid="16" duration="300"/>
+    <frame tileid="26" duration="300"/>
+    <frame tileid="16" duration="300"/>
+   </animation>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 3" width="30" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUkArMB9oBIxQAAFV4ADg=
+  </data>
+ </layer>
+ <layer name="Back" width="30" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF1ALCUFoGiGWRsByN7YMBAyA2R8JGQCwEVQfCIkSYiaweXQ+6ffjsVQNidSjWIMJeZPUwTMi9IHtlaWAvIbtBdmlCaVkq2wvCwkRiESz2sgIxGxCz42Djs5dYrIHFHEJupdROmL0A/WwSWw==
+  </data>
+ </layer>
+ <objectgroup name="Behind">
+  <object id="2" type="Wall" x="0" y="0" width="32" height="128"/>
+  <object id="3" type="Wall" x="384" y="224" width="544" height="32"/>
+  <object id="4" type="Wall" x="928" y="0" width="32" height="224"/>
+  <object id="5" type="Wall" x="32" y="-32" width="896" height="32"/>
+  <object id="10" type="Wall" x="32" y="128" width="96" height="32"/>
+  <object id="11" type="Wall" x="96" y="160" width="32" height="128"/>
+  <object id="12" type="Wall" x="384" y="128" width="160" height="32"/>
+  <object id="13" type="Wall" x="384" y="160" width="192" height="32"/>
+  <object id="14" type="Wall" x="384" y="192" width="224" height="32"/>
+  <object id="17" type="Door" gid="42" x="832" y="224"/>
+  <object id="18" type="Wall" x="608" y="128" width="32" height="32"/>
+  <object id="19" type="Wall" x="672" y="96" width="32" height="32"/>
+  <object id="20" type="Wall" x="736" y="64" width="32" height="32"/>
+  <object id="21" type="Wall" x="800" y="64" width="32" height="128"/>
+  <object id="22" type="Wall" x="832" y="160" width="32" height="30"/>
+  <object id="24" type="Wall" x="896" y="192" width="32" height="32"/>
+  <object id="25" type="Wall" x="832" y="64" width="96" height="32"/>
+  <object id="26" type="Switch" gid="31" x="864" y="64">
+   <properties>
+    <property name="actor" value="17"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Player">
+  <object id="1" type="Player" gid="1" x="32" y="128"/>
+ </objectgroup>
+ <objectgroup name="Front">
+  <object id="6" type="ApearingWall" x="128" y="128" width="256" height="32"/>
+  <object id="9" type="Switch" gid="31" x="81.3333" y="128.333">
+   <properties>
+    <property name="actor" value="6"/>
+   </properties>
+  </object>
+  <object id="15" type="Trap" x="128" y="264" width="256" height="32"/>
+  <object id="16" type="Memory" gid="33" x="832" y="128">
+   <properties>
+    <property name="next_scene" value="lvl3"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="Front" width="30" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUkAq0B9oBIxQAAEPYACw=
+  </data>
+ </layer>
+</map>

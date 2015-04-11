@@ -11,7 +11,7 @@ MODULES     := $(BASE) $(SFML) $(TMX) $(BOX2D)
 
 SOURCES     := $(shell find ./ -maxdepth 1 -name '*.cpp')
 INCLUDES    := $(shell find ./ -maxdepth 1 -name '*.h')
-STATIC_LIBS = ./HB/SFML/Hummingbird-SFML-2.1.a ./HB/Box2D/Hummingbird-Box2D.a ./HB/Tmx/Hummingbird-Tmx.a ./HB/Core/Hummingbird-Base.a
+STATIC_LIBS = ./HB/Tmx/Hummingbird-Tmx.a ./HB/Box2D/Hummingbird-Box2D.a ./HB/SFML/Hummingbird-SFML-2.1.a ./HB/Core/Hummingbird-Base.a
 
 OBJ         := $(addprefix ./,$(SOURCES:./%.cpp=%.o))
 

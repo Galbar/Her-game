@@ -46,6 +46,12 @@ void Game::setScene(const std::string& name)
 }
 
 
+const std::string& Game::getCurrentScene()
+{
+	return s_current_scene->first;
+}
+
+
 void Game::changeScene()
 {
 	if (s_current_scene != s_scenes.end())

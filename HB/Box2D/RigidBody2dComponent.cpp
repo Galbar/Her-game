@@ -23,6 +23,14 @@ RigidBody2dComponent::~RigidBody2dComponent()
 void RigidBody2dComponent::init()
 {
 	m_b2body->SetUserData(getGameObject());
+	addListenerToGameObject("activate", [this](DataRepository&)
+	{
+		m_b2body->SetActive(true);
+	});
+	addListenerToGameObject("deactivate", [this](DataRepository&)
+	{
+		m_b2body->SetActive(false);
+	});
 }
 
 

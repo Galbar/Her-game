@@ -101,7 +101,7 @@ namespace hb
 		  \brief Get the Vector2d formed by the x and y components of the Vector3d.
 		  \return A Vector2d formed by the x and y components of the Vector3d.
 		*/
-		Vector2d xy()
+		Vector2d xy() const
 		{return Vector2d(x, y);}
 	};
 	
