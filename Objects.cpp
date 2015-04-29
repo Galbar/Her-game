@@ -448,7 +448,7 @@ void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 	keypressed_listener_id = hb::InputManager::instance()->listen(
 	[=](hb::KeyPressed& event)
 	{
-		int value = 5.;
+		int value = 6.;
 
 		hb::Keyboard::Key code = event.code;
 		if (code == hb::Keyboard::Key::Space)
