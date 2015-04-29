@@ -183,3 +183,15 @@ const Color& SpriteComponent::getColor() const
 {
 	return m_color;
 }
+
+
+void SpriteComponent::setFrame(int frame)
+{
+	m_current_frame = frame;
+}
+
+
+int SpriteComponent::getFrame() const
+{
+	return m_current_frame;
+}

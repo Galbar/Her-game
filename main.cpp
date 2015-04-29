@@ -15,6 +15,7 @@ int main(int argc, char const *argv[])
 	hb::Game::addPlugin<hb::Box2DPlugin>();
 	//hb::Game::addPlugin<B2dDebugPlugin>();
 	// Register Object factories for Tmx scenes
+	hb::TmxRegisterFactory("Light", Light);
 	hb::TmxRegisterFactory("Wall", Wall);
 	hb::TmxRegisterFactory("ApearingWall", ApearingWall);
 	hb::TmxRegisterFactory("MovingWall", MovingWall);
@@ -37,6 +38,7 @@ int main(int argc, char const *argv[])
 	hb::Game::addScene(hb::TmxScene("lvl1", "res/levels/lvl1.tmx", cam));
 	hb::Game::addScene(hb::TmxScene("lvl2", "res/levels/lvl2.tmx", cam));
 	hb::Game::addScene(hb::TmxScene("lvl3", "res/levels/lvl3.tmx", cam));
+	hb::Game::addScene(hb::TmxScene("lvl4", "res/levels/lvl4.tmx", cam));
 
 	// Start Game
 	hb::Game::setScene("lvl1");

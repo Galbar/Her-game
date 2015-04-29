@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="50" tilewidth="32" tileheight="32" backgroundcolor="#6b7182" nextobjectid="68">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="50" tilewidth="32" tileheight="32" backgroundcolor="#6b7182" nextobjectid="113">
  <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32">
-  <image source="../drawable/tileset.png" width="320" height="224"/>
-  <tile id="0"/>
-  <tile id="1"/>
-  <tile id="2"/>
-  <tile id="3"/>
+  <image source="../drawable/tileset.png" width="320" height="256"/>
   <tile id="4">
    <animation>
     <frame tileid="4" duration="300"/>
@@ -30,73 +26,10 @@
     <frame tileid="16" duration="300"/>
    </animation>
   </tile>
-  <tile id="7"/>
-  <tile id="8"/>
-  <tile id="9"/>
-  <tile id="10"/>
-  <tile id="11"/>
-  <tile id="12"/>
-  <tile id="13"/>
-  <tile id="14"/>
-  <tile id="15"/>
-  <tile id="16"/>
-  <tile id="17"/>
-  <tile id="18"/>
-  <tile id="19"/>
-  <tile id="20"/>
-  <tile id="21"/>
-  <tile id="22"/>
-  <tile id="23"/>
-  <tile id="24"/>
-  <tile id="25"/>
-  <tile id="26"/>
-  <tile id="27"/>
-  <tile id="28"/>
-  <tile id="29"/>
-  <tile id="30"/>
-  <tile id="31"/>
-  <tile id="32"/>
-  <tile id="33"/>
-  <tile id="34"/>
-  <tile id="35"/>
-  <tile id="36"/>
-  <tile id="37"/>
-  <tile id="38"/>
-  <tile id="39"/>
-  <tile id="40"/>
-  <tile id="41"/>
-  <tile id="42"/>
-  <tile id="43"/>
-  <tile id="44"/>
-  <tile id="45"/>
-  <tile id="46"/>
-  <tile id="47"/>
-  <tile id="48"/>
-  <tile id="49"/>
-  <tile id="50"/>
-  <tile id="51"/>
-  <tile id="52"/>
-  <tile id="53"/>
-  <tile id="54"/>
-  <tile id="55"/>
-  <tile id="56"/>
-  <tile id="57"/>
-  <tile id="58"/>
-  <tile id="59"/>
-  <tile id="60"/>
-  <tile id="61"/>
-  <tile id="62"/>
-  <tile id="63"/>
-  <tile id="64"/>
-  <tile id="65"/>
-  <tile id="66"/>
-  <tile id="67"/>
-  <tile id="68"/>
-  <tile id="69"/>
  </tileset>
  <layer name="Back" width="30" height="50">
   <data encoding="base64" compression="zlib">
-   eJztl80OAUEQhPeCO464O0hwcFiO4v0fyUzopFLpnu5lFpGppEKGnW96+2fpuvF0An9S/8xdJa/JCzCubypy98k3WtPivSYfK3I1/SJXyws7ko+8z4XW5t0jt0taz9ycl0PBUUl+dwGXuFZM1j2R6y4vcC0JTzuf1Ijs48XcA5eVPzs/7fFEeH4r5h6uZW7flfNt9QDn66wY99DiZUV6zqtPPjty8f6ih/S5V5vI5b57R8LkmYnCeq7FHsq1amHo84NrS4RxReZVqYY9rpZr7N+8Pk2eJU/efF8S929+H5mrEXtM5NbgSQ9qPJwZtbi8r8xyrT+YG3mG8Iy1zP3BfJl92L+leHjGWjV7VdaRzVxvlkd/F2hcsVbPQ1zS9vlqMV/letLumVXPtZhanNb8+9ScHJsbOcOY3G/E+437HN2vcRu3cRu3cRu3cf3vRf8PRve7A/oBqGU=
+   eJzdl09Lw0AQxfei3tVj66H1WIv14KEtCBL6/T+SWezA4/Xt7Ow2KeLAQEiy+8v83UlK88kn6C3lP3MXoy5Jn0Dx/suE3PdRT3RP2TuM+jEhV8lf5Kq4sEbikfc50r3H9BvbZ7qfuTkuO0ejYvF9C6jHLdlU8omtO3ZwS2I89X2WI7ZPzeY9cFnys8NZazwT/P6SzXtYy9x98uNdqgGO10Eo7qHsZYnUXC0/+duRi/5FnbLOkct1N7dgPt+SzXWkfNx6flis0A62KdKvvBxWMgg78JzC+kXG3aj3oz50Xg/p8jxEJuZVvo701YiWuNgXjKvW2zstTOsNzOVexFzmRNjqnVJ9MPfoMDz2znl+Spd5ncV6H9Zvbe+dc1+p5TOymVvr5dfOBVlUPrdojxizNm/0MpXPzG+ROaeVyTNJKTfRz6X+Eu2TC+dbvfmqhxs5K3q5JshdNLBL/UBxv8X6L2BinPP18ny9TJfSYi/POjwj14Rj3eLngda2nL9cH1E/K24t/mqtOmcidcTsqNTOsLm5HruFu3E4iuud2cbdBuzY0FrFjdiKfp6Ki2zvLFfc1aivFa7imKg5kXs2c1fwLrM3hT2u4eZna+GXNSivZ3tb1JtjS7GpSfT/IzK3t9RwK7eWg3NyvX4alV6u4t+Sy+zo/2CU+wMf66Bt
   </data>
  </layer>
  <layer name="big rose" width="30" height="50">
@@ -133,39 +66,89 @@
   <object id="29" type="Wall" x="96" y="544" width="224" height="64"/>
   <object id="33" type="Wall" x="640" y="704" width="96" height="64"/>
   <object id="34" type="Wall" x="736" y="736" width="64" height="32"/>
-  <object id="35" type="Wall" x="768" y="672" width="96" height="32"/>
+  <object id="35" type="Wall" x="800" y="672" width="64" height="32"/>
   <object id="36" type="Wall" x="864" y="704" width="32" height="32"/>
   <object id="37" type="Wall" x="832" y="640" width="32" height="32"/>
   <object id="38" type="Wall" x="864" y="608" width="32" height="32"/>
   <object id="39" type="Wall" x="896" y="576" width="32" height="32"/>
   <object id="40" type="Wall" x="928" y="480" width="32" height="96"/>
-  <object id="41" type="Wall" x="736" y="544" width="32" height="32"/>
-  <object id="42" type="Wall" x="608" y="576" width="224" height="32"/>
+  <object id="41" type="Wall" x="640" y="544" width="96" height="32"/>
   <object id="44" type="Wall" x="576" y="320" width="32" height="128"/>
-  <object id="47" type="Wall" x="736" y="416" width="160" height="32"/>
-  <object id="48" type="Wall" x="704" y="448" width="32" height="128"/>
+  <object id="47" type="Wall" x="608" y="416" width="288" height="32"/>
   <object id="49" type="Wall" x="896" y="448" width="32" height="32"/>
   <object id="50" type="Wall" x="640" y="864" width="192" height="32"/>
   <object id="51" type="Wall" x="864" y="800" width="32" height="32"/>
   <object id="53" type="Wall" x="640" y="768" width="192" height="32"/>
   <object id="62" type="Wall" x="896" y="704" width="32" height="96"/>
-  <object id="57" type="Wall" x="832" y="544" width="32" height="32"/>
+  <object id="57" type="Wall" x="800" y="544" width="32" height="32"/>
   <object id="66" type="Wall" x="576" y="96" width="64" height="64"/>
   <object id="67" type="Wall" x="640" y="96" width="256" height="32"/>
   <object id="63" type="Wall" x="832" y="832" width="32" height="32"/>
+  <object id="75" type="Wall" x="640" y="576" width="64" height="128"/>
+  <object id="76" type="Wall" x="704" y="576" width="128" height="32"/>
+  <object id="77" type="Light" x="737" y="129.667" width="93" height="100.333"/>
+  <object id="79" type="ApearingWall" x="640" y="960" width="32" height="96">
+   <properties>
+    <property name="start_active" value="true"/>
+   </properties>
+  </object>
+  <object id="81" type="Wall" x="576" y="896" width="64" height="32"/>
+  <object id="82" type="Wall" x="480" y="992" width="32" height="64"/>
+  <object id="83" type="Wall" x="128" y="1056" width="256" height="32"/>
+  <object id="84" type="Wall" x="352" y="1024" width="64" height="32"/>
+  <object id="85" type="Wall" x="384" y="992" width="32" height="32"/>
+  <object id="86" type="Wall" x="448" y="960" width="32" height="32"/>
+  <object id="88" type="Wall" x="576" y="1024" width="32" height="32"/>
+  <object id="89" type="Wall" x="544" y="928" width="192" height="32"/>
+  <object id="93" type="Wall" x="736" y="960" width="32" height="96"/>
+  <object id="94" type="Wall" x="640" y="1056" width="96" height="32"/>
+  <object id="95" type="Wall" x="512" y="1024" width="32" height="32"/>
+  <object id="96" type="ApearingWall" x="832" y="544" width="96" height="32">
+   <properties>
+    <property name="start_active" value="true"/>
+   </properties>
+  </object>
+  <object id="97" type="Switch" gid="69" x="800" y="544" width="32" height="32">
+   <properties>
+    <property name="actors" value="96 98"/>
+   </properties>
+  </object>
+  <object id="98" type="ApearingWall" x="640" y="800" width="32" height="64">
+   <properties>
+    <property name="start_active" value="false"/>
+   </properties>
+  </object>
+  <object id="99" type="Switch" gid="69" x="672" y="544" width="32" height="32">
+   <properties>
+    <property name="actors" value="96 79 98"/>
+   </properties>
+  </object>
+  <object id="102" type="Wall" x="32" y="928" width="32" height="448"/>
+  <object id="103" type="Memory" gid="62" x="288" y="1376" width="32" height="32">
+   <properties>
+    <property name="next_scene" value="lvl4"/>
+   </properties>
+  </object>
+  <object id="104" type="Wall" x="160" y="1088" width="32" height="64"/>
+  <object id="105" type="Wall" x="192" y="1152" width="32" height="64"/>
+  <object id="106" type="Wall" x="320" y="1216" width="32" height="160"/>
+  <object id="107" type="Wall" x="64" y="1376" width="256" height="32"/>
+  <object id="108" type="Wall" x="128" y="1312" width="64" height="32"/>
+  <object id="109" type="Wall" x="96" y="1344" width="128" height="32"/>
+  <object id="110" type="Wall" x="192" y="1216" width="128" height="32"/>
  </objectgroup>
  <objectgroup name="Player">
-  <object id="9" type="Player" gid="1" x="836" y="536" width="32" height="32"/>
+  <object id="73" type="Player" gid="3" x="32" y="224" width="32" height="32"/>
  </objectgroup>
  <layer name="Front" width="30" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt1DEKwCAMQFEX9TC9QGfvf6hmEbqUpoh0eQ/+EghkSilAxnlrtxq1qCfnX4yFXYA3808BPDn+PgAAADa6AK0RAUU=
+   eJzt10EKgCAQhWE32Wnat7X7Hyo3wiCREzUj5v/BgCjyFFEwBAAauyhrS66Ya1X2P3G8mAvAz4h3tbxRAACMLPVewETk/+au/bVNWX/PrccstHItXWVZ71dm1zkeZ91ai1cmMLsTUSYLVg==
   </data>
  </layer>
  <objectgroup name="Front">
-  <object id="1" type="Switch" gid="31" x="224" y="224" width="32" height="32">
+  <object id="1" type="Switch" gid="69" x="224" y="224" width="32" height="32">
    <properties>
-    <property name="actor" value="2"/>
+    <property name="actors" value="2"/>
    </properties>
   </object>
   <object id="2" type="ApearingWall" x="320" y="224" width="256" height="32">
@@ -173,21 +156,25 @@
     <property name="start_active" value="true"/>
    </properties>
   </object>
-  <object id="17" type="Switch" gid="31" x="256" y="448" width="32" height="32">
+  <object id="17" type="Switch" gid="69" x="256" y="448" width="32" height="32">
    <properties>
-    <property name="actor" value="18"/>
+    <property name="actors" value="18"/>
    </properties>
   </object>
-  <object id="32" type="Switch" gid="31" x="736" y="544" width="32" height="32">
+  <object id="32" type="Switch" gid="69" x="704" y="544" width="32" height="32">
    <properties>
-    <property name="actor" value="56"/>
+    <property name="actors" value="98 79"/>
    </properties>
   </object>
-  <object id="56" type="Door" gid="42" x="640" y="864" width="32" height="32"/>
-  <object id="58" type="Trap" x="768" y="553.75" width="63.5" height="18.5"/>
-  <object id="11" type="Trap" x="320.5" y="1577" width="320" height="32"/>
-  <object id="64" type="Trap" x="320.667" y="618.417" width="319.333" height="18.5"/>
-  <object id="61" type="Trap" x="832" y="233" width="96" height="18.5"/>
-  <object id="60" type="Trap" x="640" y="232" width="96" height="18.5"/>
+  <object id="58" type="Trap" x="735.167" y="555.417" width="63.5" height="18.5"/>
+  <object id="64" type="Trap" x="320.667" y="621.084" width="319.333" height="18.5"/>
+  <object id="61" type="Trap" x="832" y="237.667" width="96" height="18.5"/>
+  <object id="60" type="Trap" x="640.667" y="237.333" width="96" height="18.5"/>
+  <object id="90" type="Switch" gid="69" x="704" y="1056" width="32" height="32">
+   <properties>
+    <property name="actors" value="91"/>
+   </properties>
+  </object>
+  <object id="91" type="Door" gid="64" x="288" y="1056" width="32" height="32"/>
  </objectgroup>
 </map>

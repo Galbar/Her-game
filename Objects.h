@@ -3,6 +3,7 @@
 #include "HB/Box2D.h"
 #include "HB/Tmx.h"
 
+void Light(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id);
 void Wall(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id);
 void MovingWall(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id);
 void ApearingWall(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id);
@@ -35,6 +36,7 @@ struct MovingWallData
 struct SwitchData
 {
 	bool is_active = false;
+	std::vector<int> actors;
 };
 
 
@@ -51,4 +53,7 @@ struct PlayerData
 	unsigned int grounded_count = 0;
 	hb::SpriteComponent* player_sprite = nullptr;
 	hb::GameObject* current_switch = nullptr;
+	std::vector<int> go_right_frame_order = std::vector<int>(4);
+	std::vector<int> go_left_frame_order = std::vector<int>(4);
+	int gid;
 };

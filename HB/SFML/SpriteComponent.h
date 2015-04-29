@@ -25,7 +25,9 @@ namespace hb
 
 		void setSprite(const Sprite& sprite);
 		void setFrameOrder(const std::vector<int>& frame_order);
+		void setFrame(int frame);
 		const std::vector<int>& getFrameOrder() const;
+		int getFrame() const;
 		void setFrameTime(const Time& frame_time);
 		const Time& getFrameTime() const;
 		const Sprite& getSprite() const;

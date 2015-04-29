@@ -1,5 +1,26 @@
 #include "Objects.h"
 
+void Light(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
+{
+	const Tmx::Object* tmx_obj = map->GetObjectGroup(obj_grp)->GetObject(obj_id);
+	b2BodyDef body_def;
+	body_def.position = b2Vec2(go->getPosition().x + (tmx_obj->GetWidth()/32.)/2.0, go->getPosition().y + (tmx_obj->GetHeight()/32.)/2.0);
+	auto rigid_body = new hb::RigidBody2dComponent(body_def);
+	hb::Material2d mat;
+	mat.friction = tmx_obj->GetProperties().GetFloatProperty("friction", 0.);
+	mat.bounciness = tmx_obj->GetProperties().GetFloatProperty("bounciness", 0.);
+	mat.density = tmx_obj->GetProperties().GetFloatProperty("density", 1.);
+	hb::BoxCollider2d collider(
+		mat,
+		hb::Vector2d((tmx_obj->GetWidth()/32.), (tmx_obj->GetHeight()/32.)),
+		hb::Vector2d(),
+		tmx_obj->GetRot(),
+		true);
+	rigid_body->addCollider(collider);
+	go->addComponent(rigid_body);
+}
+
+
 void Wall(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 {
 	const Tmx::Object* tmx_obj = map->GetObjectGroup(obj_grp)->GetObject(obj_id);
@@ -43,12 +64,13 @@ void ApearingWall(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_
 	hb::Texture tex = hb::Texture::loadFromFile("res/drawable/tileset.png");
 	hb::Sprite sprite(tex, hb::Vector2d(32, 32));
 	sprite.setCenter(hb::Vector2d(0, 16));
-	for (int i = 0; i < tmx_obj->GetWidth()/32.; ++i)
-	{
-		auto spr = new hb::SpriteComponent(sprite, {50, 51, 52}, hb::Time::seconds(0.2));
-		spr->setPosition(hb::Vector3d(i - tmx_obj->GetWidth()/32./2., 0, 0));
-		go->addComponent(spr);
-	}
+	for (int j = 0; j < tmx_obj->GetHeight()/32.; ++j)
+		for (int i = 0; i < tmx_obj->GetWidth()/32.; ++i)
+		{
+			auto spr = new hb::SpriteComponent(sprite, {50, 51, 52}, hb::Time::seconds(0.2));
+			spr->setPosition(hb::Vector3d(i - tmx_obj->GetWidth()/32./2., j - tmx_obj->GetHeight()/32./2. + 0.5, 0));
+			go->addComponent(spr);
+		}
 
 	bool b = (tmx_obj->GetProperties().GetStringProperty("start_active") == "true");
 	go->setActive(b);
@@ -58,12 +80,12 @@ void ApearingWall(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_
 
 	fc->addListener("enable", [=](hb::DataRepository&)
 	{
-		go->setActive(not b);
+		go->setActive(not go->isActive());
 	});
 
 	fc->addListener("disable", [=](hb::DataRepository&)
 	{
-		go->setActive(b);
+		go->setActive(not go->isActive());
 	});
 }
 
@@ -191,37 +213,50 @@ void Switch(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 	mat.density = tmx_obj->GetProperties().GetFloatProperty("density", 1.);
 	hb::BoxCollider2d collider(
 		mat,
-		hb::Vector2d(.5, 1.),
+		hb::Vector2d(.6, 1.),
 		hb::Vector2d(0, 0),
 		tmx_obj->GetRot(),
 		true);
 	rigid_body->addCollider(collider);
 	go->addComponent(rigid_body);
 
-
-	int actor_id = tmx_obj->GetProperties().GetIntProperty("actor");
 	auto data = new SwitchData;
+	std::string actors = tmx_obj->GetProperties().GetStringProperty("actors");
+	std::stringstream ss;
+	ss << actors;
+	int actor;
+	while(ss >> actor)
+	{
+		data->actors.push_back(actor);
+	}
 	hb::Texture tex = hb::Texture::loadFromFile("res/drawable/tileset.png");
 	hb::Sprite sprite(tex, hb::Vector2d(32, 32));
 	sprite.setCenter(hb::Vector2d(16., 16.));
-	auto spr_comp = new hb::SpriteComponent(sprite, {30});
+	auto spr_comp = new hb::SpriteComponent(sprite, {tmx_obj->GetGid()-1});
 
 	auto fc = new hb::FunctionComponent;
 	go->addComponents({fc, spr_comp});
-	fc->addListener("switch", [=](hb::DataRepository&)
+	fc->addListener("switch", [=](hb::DataRepository& d)
 	{
-		hb::DataRepository d;
+		hb::Vector3d s = spr_comp->getScale();
+		s.x *= -1;
+		spr_comp->setScale(s);
+
 		if (data->is_active)
 		{
-			hb::GameObject::getGameObjectById(actor_id)->sendMessage("disable", d);
-			data->is_active = false;
-			spr_comp->setFrameOrder({30});
+			for(int actor_id : data->actors)
+			{
+				hb::GameObject::getGameObjectById(actor_id)->sendMessage("disable", d);
+				data->is_active = false;
+			}
 		}
 		else
 		{
-			hb::GameObject::getGameObjectById(actor_id)->sendMessage("enable", d);
-			data->is_active = true;
-			spr_comp->setFrameOrder({31});
+			for(int actor_id : data->actors)
+			{
+				hb::GameObject::getGameObjectById(actor_id)->sendMessage("enable", d);
+				data->is_active = true;
+			}
 		}
 	});
 
@@ -254,7 +289,7 @@ void Door(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 	hb::Texture tex = hb::Texture::loadFromFile("res/drawable/tileset.png");
 	hb::Sprite sprite(tex, hb::Vector2d(32, 32));
 	sprite.setCenter(hb::Vector2d(16., 16.));
-	auto spr_comp = new hb::SpriteComponent(sprite, {41});
+	auto spr_comp = new hb::SpriteComponent(sprite, {63});
 
 	auto fc = new hb::FunctionComponent;
 	go->addComponents({fc, spr_comp});
@@ -291,7 +326,7 @@ void Memory(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 
 	hb::Texture tex = hb::Texture::loadFromFile("res/drawable/tileset.png");
 	hb::Sprite sprite(tex, hb::Vector2d(32, 32));
-	auto spr_comp = new hb::SpriteComponent(sprite, {32});
+	auto spr_comp = new hb::SpriteComponent(sprite, {61});
 	sprite.setCenter(hb::Vector2d(16., 16.));
 	go->addComponent(spr_comp);
 
@@ -313,7 +348,7 @@ void Memory(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 		if (collision.getPointer<hb::GameObject>("other")->getName() == "Player")
 		{
 			data->touching_player = false;
-			spr_comp->setFrameOrder({32});
+			spr_comp->setFrameOrder({61});
 		}
 	});
 
@@ -345,14 +380,14 @@ void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 	mat.density = tmx_obj->GetProperties().GetFloatProperty("density", 1.);
 	hb::BoxCollider2d collider(
 		mat,
-		hb::Vector2d(0.4, 0.96),
+		hb::Vector2d(0.5, 0.96),
 		hb::Vector2d(0, 0.0),
 		0.,
 		false);
 	rigid_body->addCollider(collider);
 	hb::BoxCollider2d grounded_sensor(
 		mat,
-		hb::Vector2d(0.38, 0.1),
+		hb::Vector2d(0.38, 0.2),
 		hb::Vector2d(0, 0.5),
 		0.,
 		true);
@@ -360,13 +395,40 @@ void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 	int grounded_sensor_id = rigid_body->addCollider(grounded_sensor);
 	go->addComponent(rigid_body);
 
+	auto data = new PlayerData;
+	int gid = tmx_obj->GetGid() - 1;
+	data->gid = gid;
+	if (gid == 30)
+	{
+		data->go_right_frame_order[0] = gid;
+		data->go_right_frame_order[1] = gid + 1;
+		data->go_right_frame_order[2] = gid;
+		data->go_right_frame_order[3] = gid + 2;
+		gid += 10;
+		data->go_left_frame_order[0] = gid;
+		data->go_left_frame_order[1] = gid + 1;
+		data->go_left_frame_order[2] = gid;
+		data->go_left_frame_order[3] = gid + 2;
+	}
+	else
+	{
+		data->go_right_frame_order[0] = gid;
+		data->go_right_frame_order[1] = gid + 10;
+		data->go_right_frame_order[2] = gid;
+		data->go_right_frame_order[3] = gid + 20;
+		++gid;
+		data->go_left_frame_order[0] = gid;
+		data->go_left_frame_order[1] = gid + 10;
+		data->go_left_frame_order[2] = gid;
+		data->go_left_frame_order[3] = gid + 20;
+	}
+
 	hb::Texture tex = hb::Texture::loadFromFile("res/drawable/tileset.png");
 	hb::Sprite sprite(tex, hb::Vector2d(32, 32));
 	sprite.setCenter(hb::Vector2d(16., 16.));
-	auto spr_comp = new hb::SpriteComponent(sprite, {1}, hb::Time::seconds(0.2));
+	auto spr_comp = new hb::SpriteComponent(sprite, {data->go_right_frame_order[0]}, hb::Time::seconds(0.2));
 	go->addComponent(spr_comp);
 
-	auto data = new PlayerData;
 	data->player_sprite = spr_comp;
 
 	auto fc = new hb::FunctionComponent;
@@ -389,9 +451,42 @@ void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 
 	fc->addListener("sensorStart", [=](hb::DataRepository& collision)
 	{
+		auto otherFixture = collision.getPointer<b2Fixture>("otherFixture");
 		if (collision.getPointer<hb::Fixture2dData>("fixtureData")->id == grounded_sensor_id
-			and not collision.getPointer<b2Fixture>("otherFixture")->IsSensor())
+			and not otherFixture->IsSensor())
 			++data->grounded_count;
+		else if (otherFixture->IsSensor() and collision.getPointer<hb::GameObject>("other")->getName() == "Light")
+		{
+			int gid = 0;
+			if (gid == 30)
+			{
+				data->go_right_frame_order[0] = gid;
+				data->go_right_frame_order[1] = gid + 1;
+				data->go_right_frame_order[2] = gid;
+				data->go_right_frame_order[3] = gid + 2;
+				gid += 10;
+				data->go_left_frame_order[0] = gid;
+				data->go_left_frame_order[1] = gid + 1;
+				data->go_left_frame_order[2] = gid;
+				data->go_left_frame_order[3] = gid + 2;
+			}
+			else
+			{
+				data->go_right_frame_order[0] = gid;
+				data->go_right_frame_order[1] = gid + 10;
+				data->go_right_frame_order[2] = gid;
+				data->go_right_frame_order[3] = gid + 20;
+				++gid;
+				data->go_left_frame_order[0] = gid;
+				data->go_left_frame_order[1] = gid + 10;
+				data->go_left_frame_order[2] = gid;
+				data->go_left_frame_order[3] = gid + 20;
+			}
+			if (data->player_vel.x < 0)
+				data->player_sprite->setFrameOrder(data->go_left_frame_order);
+			else
+				data->player_sprite->setFrameOrder(data->go_right_frame_order);
+		}
 	});
 
 	fc->addListener("sensorStay", [=](hb::DataRepository& data_repo)
@@ -416,11 +511,44 @@ void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 
 	fc->addListener("sensorEnd", [=](hb::DataRepository& collision)
 	{
+		auto otherFixture = collision.getPointer<b2Fixture>("otherFixture");
 		if (collision.getPointer<hb::Fixture2dData>("fixtureData")->id == grounded_sensor_id
-			and not collision.getPointer<b2Fixture>("otherFixture")->IsSensor())
+			and not otherFixture->IsSensor())
 		{
 			data->platform_vel = hb::Vector2d();
 			--data->grounded_count;
+		}
+		else if (otherFixture->IsSensor() and collision.getPointer<hb::GameObject>("other")->getName() == "Light")
+		{
+			int gid = data->gid;
+			if (gid == 30)
+			{
+				data->go_right_frame_order[0] = gid;
+				data->go_right_frame_order[1] = gid + 1;
+				data->go_right_frame_order[2] = gid;
+				data->go_right_frame_order[3] = gid + 2;
+				gid += 10;
+				data->go_left_frame_order[0] = gid;
+				data->go_left_frame_order[1] = gid + 1;
+				data->go_left_frame_order[2] = gid;
+				data->go_left_frame_order[3] = gid + 2;
+			}
+			else
+			{
+				data->go_right_frame_order[0] = gid;
+				data->go_right_frame_order[1] = gid + 10;
+				data->go_right_frame_order[2] = gid;
+				data->go_right_frame_order[3] = gid + 20;
+				++gid;
+				data->go_left_frame_order[0] = gid;
+				data->go_left_frame_order[1] = gid + 10;
+				data->go_left_frame_order[2] = gid;
+				data->go_left_frame_order[3] = gid + 20;
+			}
+			if (data->player_vel.x < 0)
+				data->player_sprite->setFrameOrder(data->go_left_frame_order);
+			else
+				data->player_sprite->setFrameOrder(data->go_right_frame_order);
 		}
 	});
 
@@ -463,12 +591,12 @@ void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 		else if (code == hb::Keyboard::Key::A and data->player_vel.x >= 0)
 		{
 			data->player_vel.x = -value;
-			data->player_sprite->setFrameOrder({2, 12, 2, 22});
+			data->player_sprite->setFrameOrder(data->go_left_frame_order);
 		}
 		else if (code == hb::Keyboard::Key::D and data->player_vel.x <= 0)
 		{
 			data->player_vel.x = value;
-			data->player_sprite->setFrameOrder({1, 11, 1, 21});
+			data->player_sprite->setFrameOrder(data->go_right_frame_order);
 		}
 		else if (code == hb::Keyboard::Key::W)
 		{
@@ -486,12 +614,12 @@ void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 		if (code == hb::Keyboard::Key::A and data->player_vel.x < 0)
 		{
 			data->player_vel.x = 0;
-			data->player_sprite->setFrameOrder({2});
+			data->player_sprite->setFrameOrder({data->go_left_frame_order[0]});
 		}
 		else if (code == hb::Keyboard::Key::D and data->player_vel.x > 0)
 		{
 			data->player_vel.x = 0;
-			data->player_sprite->setFrameOrder({1});
+			data->player_sprite->setFrameOrder({data->go_right_frame_order[0]});
 		}
 		else if (code == hb::Keyboard::Key::W)
 		{
