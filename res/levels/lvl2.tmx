@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="32" tileheight="32" backgroundcolor="#79b1cb" nextobjectid="28">
  <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32">
-  <image source="../drawable/tileset.png" width="320" height="224"/>
+  <image source="../drawable/tileset.png" width="320" height="256"/>
   <tile id="4">
    <animation>
     <frame tileid="4" duration="300"/>
@@ -71,10 +71,10 @@
     <property name="actors" value="6"/>
    </properties>
   </object>
-  <object id="15" type="Trap" x="128" y="264" width="256" height="32"/>
+  <object id="15" type="Trap" x="128" y="288" width="256" height="32"/>
   <object id="16" type="Memory" gid="62" x="832" y="128" width="32" height="32">
    <properties>
-    <property name="next_scene" value="lvl3"/>
+    <property name="next_scene" value="memory2"/>
    </properties>
   </object>
  </objectgroup>

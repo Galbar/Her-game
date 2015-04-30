@@ -458,30 +458,32 @@ void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 		else if (otherFixture->IsSensor() and collision.getPointer<hb::GameObject>("other")->getName() == "Light")
 		{
 			int gid = 0;
-			if (gid == 30)
-			{
-				data->go_right_frame_order[0] = gid;
-				data->go_right_frame_order[1] = gid + 1;
-				data->go_right_frame_order[2] = gid;
-				data->go_right_frame_order[3] = gid + 2;
-				gid += 10;
-				data->go_left_frame_order[0] = gid;
-				data->go_left_frame_order[1] = gid + 1;
-				data->go_left_frame_order[2] = gid;
-				data->go_left_frame_order[3] = gid + 2;
-			}
+			data->go_right_frame_order[0] = gid;
+			data->go_right_frame_order[1] = gid + 10;
+			data->go_right_frame_order[2] = gid;
+			data->go_right_frame_order[3] = gid + 20;
+			++gid;
+			data->go_left_frame_order[0] = gid;
+			data->go_left_frame_order[1] = gid + 10;
+			data->go_left_frame_order[2] = gid;
+			data->go_left_frame_order[3] = gid + 20;
+			if (data->player_vel.x < 0)
+				data->player_sprite->setFrameOrder(data->go_left_frame_order);
 			else
-			{
-				data->go_right_frame_order[0] = gid;
-				data->go_right_frame_order[1] = gid + 10;
-				data->go_right_frame_order[2] = gid;
-				data->go_right_frame_order[3] = gid + 20;
-				++gid;
-				data->go_left_frame_order[0] = gid;
-				data->go_left_frame_order[1] = gid + 10;
-				data->go_left_frame_order[2] = gid;
-				data->go_left_frame_order[3] = gid + 20;
-			}
+				data->player_sprite->setFrameOrder(data->go_right_frame_order);
+		}
+		else if (otherFixture->IsSensor() and collision.getPointer<hb::GameObject>("other")->getName() == "SemiLight")
+		{
+			int gid = 2;
+			data->go_right_frame_order[0] = gid;
+			data->go_right_frame_order[1] = gid + 10;
+			data->go_right_frame_order[2] = gid;
+			data->go_right_frame_order[3] = gid + 20;
+			++gid;
+			data->go_left_frame_order[0] = gid;
+			data->go_left_frame_order[1] = gid + 10;
+			data->go_left_frame_order[2] = gid;
+			data->go_left_frame_order[3] = gid + 20;
 			if (data->player_vel.x < 0)
 				data->player_sprite->setFrameOrder(data->go_left_frame_order);
 			else
@@ -518,7 +520,9 @@ void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 			data->platform_vel = hb::Vector2d();
 			--data->grounded_count;
 		}
-		else if (otherFixture->IsSensor() and collision.getPointer<hb::GameObject>("other")->getName() == "Light")
+		else if (otherFixture->IsSensor() and
+			(collision.getPointer<hb::GameObject>("other")->getName() == "Light"
+			or collision.getPointer<hb::GameObject>("other")->getName() == "SemiLight"))
 		{
 			int gid = data->gid;
 			if (gid == 30)
@@ -630,6 +634,72 @@ void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 	{
 		hb::InputManager::instance()->ignore(keypressed_listener_id);
 		hb::InputManager::instance()->ignore(keyreleased_listener_id);
+		delete data;
+	});
+}
+
+
+void DisplayMemory(const std::string& memory_path, const std::string& next_scene)
+{
+	auto go = new hb::GameObject();
+	hb::Texture blank = hb::Texture::makeTexture(hb::Vector2d(1,1));
+	blank.fill(hb::Rect(0, 0, 1, 1), hb::Color(1.f, 1.f, 1.f));
+	blank.repeat(true);
+	auto spr_blank = hb::Sprite(blank);
+	spr_blank.setFrameSize(hb::Vector2d(1200, 720));
+	auto sprite_blank = new hb::SpriteComponent(spr_blank);
+	sprite_blank->setPosition(0, 0, 100);
+
+	hb::Texture memory = hb::Texture::loadFromFile(memory_path);
+	auto sprite_memory = new hb::SpriteComponent(hb::Sprite(memory));
+
+	auto fc = new hb::FunctionComponent();
+	go->addComponents({sprite_blank, sprite_memory, fc});
+
+	auto data = new DisplayMemoryData;
+	data->time = hb::Time::seconds(1.5);
+	fc->addListener("update", [=](hb::DataRepository& d)
+	{
+		data->time -= hb::Time::deltaTime;
+		switch(data->status){
+			case 0:
+				if (data->time.asSeconds() < 0)
+				{
+					sprite_blank->setColor(hb::Color(1.f, 1.f, 1.f, 0.f));
+					data->status = 1;
+				}
+				else
+				{
+					sprite_blank->setColor(hb::Color(1.f, 1.f, 1.f, data->time.asSeconds()/1.5f));
+				}
+				break;
+			case 2:
+				if (data->time.asSeconds() < 0)
+				{
+					sprite_blank->setColor(hb::Color(1.f, 1.f, 1.f, 1.f));
+					hb::Game::setScene(next_scene);
+				}
+				else
+				{
+					sprite_blank->setColor(hb::Color(1.f, 1.f, 1.f, 1.f - data->time.asSeconds()/1.5f));
+				}
+				break;
+		}
+	});
+
+	auto keypressed_listener_id = hb::InputManager::instance()->listen(
+	[=](hb::KeyPressed& event)
+	{
+		if (data->status == 1 and next_scene != "")
+		{
+			data->time = hb::Time::seconds(1.5);
+			data->status = 2;
+		}
+	});
+
+	fc->addListener("destroy", [=](hb::DataRepository&)
+	{
+		hb::InputManager::instance()->ignore(keypressed_listener_id);
 		delete data;
 	});
 }

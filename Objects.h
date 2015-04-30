@@ -12,6 +12,13 @@ void Switch(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id);
 void Door(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id);
 void Memory(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id);
 void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id);
+void DisplayMemory(const std::string& memory_path, const std::string& next_scene);
+
+struct DisplayMemoryData
+{
+	hb::Time time;
+	char status = 0;
+};
 
 struct MovingWallData
 {
