@@ -62,15 +62,15 @@ int main(int argc, char const *argv[])
 	}));
 	hb::Game::addScene(hb::Game::Scene("memory3", [](){
 		camMemories();
-		DisplayMemory("res/drawable/tileset.png", "lvl4");
+		DisplayMemory("res/drawable/memory3.png", "lvl4");
 	}));
 	hb::Game::addScene(hb::Game::Scene("memory4", [](){
 		camMemories();
-		DisplayMemory("res/drawable/tileset.png", "credits");
+		DisplayMemory("res/drawable/memory4.png", "credits");
 	}));
 	hb::Game::addScene(hb::Game::Scene("memory4.1", [](){
 		camMemories();
-		DisplayMemory("res/drawable/tileset.png", "credits");
+		DisplayMemory("res/drawable/memory4.1.png", "credits");
 	}));
 
 	hb::Game::addScene(hb::TmxScene("credits", "res/levels/credits.tmx", camLevels));
