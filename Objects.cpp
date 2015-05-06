@@ -677,7 +677,6 @@ void DisplayMemory(const std::string& memory_path, const std::string& next_scene
 	w_size.y = hb::Renderer::getWindow().getView().getSize().y;
 	sprite_text->setPosition(hb::Vector3d(w_size.x/2 - 96/4, w_size.y - 32, 50));
 	sprite_text->setColor(hb::Color(0,0,0,0));
-	sprite_text->setScale(hb::Vector3d(0.5, 0.5, 1.));
 
 	auto fc = new hb::FunctionComponent();
 	go->addComponents({sprite_blank, sprite_memory, sprite_text, fc});

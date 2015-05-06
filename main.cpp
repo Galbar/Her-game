@@ -11,8 +11,8 @@ void camMemories()
 	hb::Renderer::getCamera().setAxisY(hb::Vector3d(0, 1, 0));
 	hb::Renderer::getCamera().setAxisZ(hb::Vector3d(0, 0, 1));
 
-	int width = 600;// 1200;
-	int height = 360;// 720;
+	int width = 1200;
+	int height = 720;
 	hb::Renderer::getCamera().setPosition(hb::Vector2d(width/2, height/2));
 	hb::Renderer::getWindow().setView(sf::View(sf::FloatRect(0, 0, width, height)));
 	hb::Renderer::setClearColor(hb::Color(1.f, 1.f, 1.f));
