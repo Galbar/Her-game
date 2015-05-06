@@ -11,8 +11,10 @@ void camMemories()
 	hb::Renderer::getCamera().setAxisY(hb::Vector3d(0, 1, 0));
 	hb::Renderer::getCamera().setAxisZ(hb::Vector3d(0, 0, 1));
 
-	hb::Renderer::getCamera().setPosition(hb::Vector2d(600, 360));
-	hb::Renderer::getWindow().setView(sf::View(sf::FloatRect(0, 0, 1200, 720)));
+	int width = 600;// 1200;
+	int height = 360;// 720;
+	hb::Renderer::getCamera().setPosition(hb::Vector2d(width/2, height/2));
+	hb::Renderer::getWindow().setView(sf::View(sf::FloatRect(0, 0, width, height)));
 	hb::Renderer::setClearColor(hb::Color(1.f, 1.f, 1.f));
 }
 
@@ -39,6 +41,7 @@ int main(int argc, char const *argv[])
 	hb::TmxRegisterFactory("Switch", Switch);
 	hb::TmxRegisterFactory("Door", Door);
 	hb::TmxRegisterFactory("Memory", Memory);
+	hb::TmxRegisterFactory("GameOver", GameOver);
 	hb::TmxRegisterFactory("Player", Player);
 	hb::TmxRegisterFactory("Trap", Trap);
 
@@ -51,11 +54,11 @@ int main(int argc, char const *argv[])
 	hb::Game::addScene(hb::TmxScene("lvl4", "res/levels/lvl4.tmx", camLevels));
 	hb::Game::addScene(hb::Game::Scene("memory1", [](){
 		camMemories();
-		DisplayMemory("res/drawable/tileset.png", "lvl2");
+		DisplayMemory("res/drawable/memory1.png", "lvl2");
 	}));
 	hb::Game::addScene(hb::Game::Scene("memory2", [](){
 		camMemories();
-		DisplayMemory("res/drawable/tileset.png", "lvl3");
+		DisplayMemory("res/drawable/memory2.png", "lvl3");
 	}));
 	hb::Game::addScene(hb::Game::Scene("memory3", [](){
 		camMemories();
@@ -63,8 +66,14 @@ int main(int argc, char const *argv[])
 	}));
 	hb::Game::addScene(hb::Game::Scene("memory4", [](){
 		camMemories();
-		DisplayMemory("res/drawable/tileset.png", "");
+		DisplayMemory("res/drawable/tileset.png", "credits");
 	}));
+	hb::Game::addScene(hb::Game::Scene("memory4.1", [](){
+		camMemories();
+		DisplayMemory("res/drawable/tileset.png", "credits");
+	}));
+
+	hb::Game::addScene(hb::TmxScene("credits", "res/levels/credits.tmx", camLevels));
 
 	// Start Game
 	hb::Game::setScene("lvl1");

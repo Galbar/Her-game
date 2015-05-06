@@ -120,7 +120,7 @@
   </object>
   <object id="54" type="Memory" gid="62" x="3040" y="288" width="32" height="32">
    <properties>
-    <property name="next_scene" value="memory4"/>
+    <property name="next_scene" value="memory4.1"/>
    </properties>
   </object>
   <object id="55" type="Light" x="2976" y="160" width="160" height="160"/>
@@ -148,7 +148,11 @@
   <object id="72" type="Trap" x="804" y="782.75" width="566.667" height="18.5"/>
   <object id="73" type="Trap" x="1378.67" y="782.75" width="391.333" height="18.5"/>
   <object id="74" type="Trap" x="2212.67" y="796.75" width="566.667" height="18.5"/>
-  <object id="75" type="GameOver" x="2794.67" y="800.75" width="566.667" height="18.5"/>
+  <object id="75" type="GameOver" x="3022.18" y="437.114" width="66.4279" height="70.8864">
+   <properties>
+    <property name="next_scene" value="memory4"/>
+   </properties>
+  </object>
   <object id="76" type="Trap" x="1784.33" y="784.75" width="391.333" height="18.5"/>
  </objectgroup>
  <layer name="Tile Layer 2" width="100" height="20">

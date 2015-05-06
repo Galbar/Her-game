@@ -29,7 +29,7 @@
  </tileset>
  <layer name="Back" width="26" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFwwFwADEnFHMRod4MCZNiPshsdSjWp6I9MPNVkcymxB7k8MCG1ZEwsjg2NyFjYSTMheReWmJ9OtoDALbODOo=
+   eJxjYBgFQwF4ALEnEHvhkOcAYk4o5iLCPDMkjAy8gdgHiH1xmA8yWx2K9SmwBx3AzFdFMpsSe5DDAxtWR8LI4tjchIyFkTAXkntpifXpaA8AhvYOqQ==
   </data>
  </layer>
  <objectgroup name="Walls">

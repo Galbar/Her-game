@@ -366,6 +366,23 @@ void Memory(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 }
 
 
+void GameOver(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
+{
+	const Tmx::Object* tmx_obj = map->GetObjectGroup(obj_grp)->GetObject(obj_id);
+	auto data = new GameOverData;
+	std::string scene = tmx_obj->GetProperties().GetStringProperty("next_scene");
+	auto fc = new hb::FunctionComponent;
+	go->addComponent(fc);
+	fc->addListener("update", [=](hb::DataRepository& collision)
+	{
+		if (data->player == nullptr)
+			data->player = hb::GameObject::getGameObjectsByName("Player")[0];
+		if (data->player->getPosition().y > 100.)
+			hb::Game::setScene(scene);
+	});
+}
+
+
 void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 {
 	const Tmx::Object* tmx_obj = map->GetObjectGroup(obj_grp)->GetObject(obj_id);
@@ -392,7 +409,7 @@ void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 		0.,
 		true);
 
-	int grounded_sensor_id = rigid_body->addCollider(grounded_sensor);
+	unsigned int grounded_sensor_id = rigid_body->addCollider(grounded_sensor);
 	go->addComponent(rigid_body);
 
 	auto data = new PlayerData;
@@ -580,7 +597,7 @@ void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 	keypressed_listener_id = hb::InputManager::instance()->listen(
 	[=](hb::KeyPressed& event)
 	{
-		int value = 6.;
+		double value = 5.5;
 
 		hb::Keyboard::Key code = event.code;
 		if (code == hb::Keyboard::Key::Space)
@@ -588,7 +605,7 @@ void Player(hb::GameObject* go, const Tmx::Map* map, int obj_grp, int obj_id)
 			if (data->grounded_count > 0)
 			{
 				b2Vec2 v = rigid_body->getB2Body()->GetLinearVelocity();
-				v.y = -12;
+				v.y = -12.5;
 				rigid_body->getB2Body()->SetLinearVelocity(v);
 			}
 		}
@@ -653,8 +670,17 @@ void DisplayMemory(const std::string& memory_path, const std::string& next_scene
 	hb::Texture memory = hb::Texture::loadFromFile(memory_path);
 	auto sprite_memory = new hb::SpriteComponent(hb::Sprite(memory));
 
+	hb::Texture text = hb::Texture::loadFromFile("res/drawable/tileset.png", hb::Rect(224, 224, 96, 32));
+	auto sprite_text = new hb::SpriteComponent(hb::Sprite(text));
+	hb::Vector2d w_size;
+	w_size.x = hb::Renderer::getWindow().getView().getSize().x;
+	w_size.y = hb::Renderer::getWindow().getView().getSize().y;
+	sprite_text->setPosition(hb::Vector3d(w_size.x/2 - 96/4, w_size.y - 32, 50));
+	sprite_text->setColor(hb::Color(0,0,0,0));
+	sprite_text->setScale(hb::Vector3d(0.5, 0.5, 1.));
+
 	auto fc = new hb::FunctionComponent();
-	go->addComponents({sprite_blank, sprite_memory, fc});
+	go->addComponents({sprite_blank, sprite_memory, sprite_text, fc});
 
 	auto data = new DisplayMemoryData;
 	data->time = hb::Time::seconds(1.5);
@@ -665,7 +691,7 @@ void DisplayMemory(const std::string& memory_path, const std::string& next_scene
 			case 0:
 				if (data->time.asSeconds() < 0)
 				{
-					sprite_blank->setColor(hb::Color(1.f, 1.f, 1.f, 0.f));
+					sprite_blank->setColor(hb::Color(0.f, 0.f, 0.f, 0.f));
 					data->status = 1;
 				}
 				else
@@ -673,15 +699,21 @@ void DisplayMemory(const std::string& memory_path, const std::string& next_scene
 					sprite_blank->setColor(hb::Color(1.f, 1.f, 1.f, data->time.asSeconds()/1.5f));
 				}
 				break;
+			case 1:
+				if (data->time.asSeconds() < -1.5 and next_scene != "")
+				{
+					sprite_text->setColor(hb::Color(1.f, 1.f, 1.f, 1.f));
+				}
+				break;
 			case 2:
 				if (data->time.asSeconds() < 0)
 				{
-					sprite_blank->setColor(hb::Color(1.f, 1.f, 1.f, 1.f));
+					sprite_blank->setColor(hb::Color(0.f, 0.f, 0.f, 1.f));
 					hb::Game::setScene(next_scene);
 				}
 				else
 				{
-					sprite_blank->setColor(hb::Color(1.f, 1.f, 1.f, 1.f - data->time.asSeconds()/1.5f));
+					sprite_blank->setColor(hb::Color(0.f, 0.f, 0.f, 1.f - data->time.asSeconds()/1.5f));
 				}
 				break;
 		}
