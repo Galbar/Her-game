@@ -15,7 +15,7 @@ STATIC_LIBS = ./HB/Tmx/Hummingbird-Tmx.a ./HB/Box2D/Hummingbird-Box2D.a ./HB/SFM
 
 OBJ         := $(addprefix ./,$(SOURCES:./%.cpp=%.o))
 
-EXE         := exe
+EXE         := Her
 
 .PHONY: $(BASE) $(SFML) $(TMX) $(BOX2D) clean run
 
