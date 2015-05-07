@@ -669,6 +669,8 @@ void DisplayMemory(const std::string& memory_path, const std::string& next_scene
 
 	hb::Texture memory = hb::Texture::loadFromFile(memory_path);
 	auto sprite_memory = new hb::SpriteComponent(hb::Sprite(memory));
+	sprite_memory->setScale(hb::Vector3d(
+		1200/memory.size().x, 720/memory.size().y, 1));
 
 	hb::Texture text = hb::Texture::loadFromFile("res/drawable/tileset.png", hb::Rect(224, 224, 96, 32));
 	auto sprite_text = new hb::SpriteComponent(hb::Sprite(text));

@@ -54,23 +54,23 @@ int main(int argc, char const *argv[])
 	hb::Game::addScene(hb::TmxScene("lvl4", "res/levels/lvl4.tmx", camLevels));
 	hb::Game::addScene(hb::Game::Scene("memory1", [](){
 		camMemories();
-		DisplayMemory("res/drawable/memory1.png", "lvl2");
+		DisplayMemory("res/drawable/memory1.jpg", "lvl2");
 	}));
 	hb::Game::addScene(hb::Game::Scene("memory2", [](){
 		camMemories();
-		DisplayMemory("res/drawable/memory2.png", "lvl3");
+		DisplayMemory("res/drawable/memory2.jpg", "lvl3");
 	}));
 	hb::Game::addScene(hb::Game::Scene("memory3", [](){
 		camMemories();
-		DisplayMemory("res/drawable/memory3.png", "lvl4");
+		DisplayMemory("res/drawable/memory3.jpg", "lvl4");
 	}));
 	hb::Game::addScene(hb::Game::Scene("memory4", [](){
 		camMemories();
-		DisplayMemory("res/drawable/memory4.png", "credits");
+		DisplayMemory("res/drawable/memory4.jpg", "credits");
 	}));
 	hb::Game::addScene(hb::Game::Scene("memory4.1", [](){
 		camMemories();
-		DisplayMemory("res/drawable/memory4.1.png", "credits");
+		DisplayMemory("res/drawable/memory4.1.jpg", "credits");
 	}));
 
 	hb::Game::addScene(hb::TmxScene("credits", "res/levels/credits.tmx", camLevels));
